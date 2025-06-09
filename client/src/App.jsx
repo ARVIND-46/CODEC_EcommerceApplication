@@ -1,19 +1,19 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Registration from './Components/Registration.jsx'
-import Login from './Components/Login.jsx'
-import HomePage from './Components/HomePage.jsx'
+import { Routes, Route } from 'react-router-dom'
+import NavBar from './Components/Layout/NavBar.jsx';
+import Registration from './Components/AuthoPages/Registration.jsx';
+import Login from './Components/AuthoPages/Login.jsx';
+import HomePage from './Components/StorePage/HomePage.jsx'
 
 const App = () => {
   return (
     <>
-     <Router>
+      <NavBar />
       <Routes>
-        <Route path="/" element={<Registration />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<HomePage/>  } />
+        <Route path="/register" element={<Registration />} />
       </Routes>
-    </Router>
     </>
   )
 }

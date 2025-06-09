@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../styles/login.css'; 
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -36,7 +35,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container" id="login">
       <h2>Login Form</h2>
       <form className="login-form" onSubmit={handleSubmit}>
         <input type="email" name="email" placeholder="Email" value={email} onChange={handleChange} required />
