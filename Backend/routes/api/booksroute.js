@@ -1,6 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const Book = require('../../models/Books');
+const multer = require('multer');
+const path = require('path');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/'),
+  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
+});
+const upload = multer({ storage });
+
 
 // Get all books
 router.get('/', async (req, res) => {
@@ -24,38 +33,53 @@ router.get('/:id', async (req, res) => {
     }
 });
 // Add a new book
-router.post('/',async (req,res)=> {
-    const { title, author, price, description, coverImage, stock, category } = req.body;
-    try {
-        const newBook = new Book({
-            title,
-            author,
-            price,
-            description,
-            coverImage,
-            stock,
-            category
-        });
-        await newBook.save();
-        res.status(201).json(newBook);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: 'Server error' });
-    }
+router.post('/', upload.single('coverImage'), async (req, res) => {
+  const { title, author, price, description, stock, category } = req.body;
+  try {
+    const newBook = new Book({
+      title,
+      author,
+      price,
+      description,
+      stock,
+      category,
+      coverImage: `/uploads/${req.file.filename}`
+    });
+    await newBook.save();
+    res.status(201).json(newBook);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error' });
+  }
 });
 
 // Update a book by ID
-router.put('/:id', async (req, res) => {
+router.put("/:id", upload.single("coverImage"), async (req, res) => {
   try {
-    const book = await Book.findByIdAndUpdate(req.params.id, req.body, {
-      new: true
-    });
-    if (!book) return res.status(404).json({ msg: 'Book not found' });
-    res.json(book);
-  } catch (err) {
-    res.status(500).json({ msg: 'Server Error' });
+    const bookId = req.params.id;
+
+    const updateData = {
+      title: req.body.title,
+      description: req.body.description,
+      stock: req.body.stock,
+      price: req.body.price,
+      author: req.body.author,
+      category: req.body.category,
+    };
+
+    if (req.file) {
+      updateData.coverImage = req.file.filename;
+    }
+
+    const updatedBook = await Book.findByIdAndUpdate(bookId, updateData, { new: true });
+
+    res.status(200).json(updatedBook);
+  } catch (error) {
+    console.error("Update error:", error);
+    res.status(500).json({ error: "Failed to update book" });
   }
 });
+
 // Delete a book by ID
 router.delete('/:id', async (req, res) => {
   try {
@@ -66,4 +90,17 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ msg: 'Server Error' });
   }
 });
+// bulk upload books
+// Add this route to your book routes
+router.post("/bulk", async (req, res) => {
+  try {
+    const books = req.body; // Expecting an array of books
+    const createdBooks = await Book.insertMany(books);
+    res.status(201).json(createdBooks);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Bulk insert failed" });
+  }
+});
+
 module.exports = router;

@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const app = express();
 //Middleware
 app.use(cors());
+app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());
 //Db configuration
 const db = require('./Backend/config/keys').mongoURI
@@ -23,6 +24,12 @@ const cartRoutes = require('./Backend/routes/api/cartroute');
 app.use('/api/cart', cartRoutes);
 const wishListRoutes = require('./Backend/routes/api/wishListroute');
 app.use('/api/wishlist', wishListRoutes);
+const adminBannerRoutes = require('./Backend/routes/api/adminBanner');
+app.use('/api/admin/banner', adminBannerRoutes);
+const adminCategoryRoutes = require('./Backend/routes/api/adminCategory');
+app.use('/api/admin/category', adminCategoryRoutes);
+const adminBooksRoutes = require('./Backend/routes/api/adminBooks');
+app.use('/api/admin/books', adminBooksRoutes);
 
 const port = process.env.PORT || 5000;
 
