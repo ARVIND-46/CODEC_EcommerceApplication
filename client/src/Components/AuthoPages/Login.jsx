@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import '../../styles/Arutho.css'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const Login = () => {
       if (user.isAdmin) {
       window.location.href = "/admin"; 
     } else {
-      window.location.href = "/user";
+      window.location.href = `/home/${user._id}`;
     }
   } catch (err) {
     alert(err.response?.data?.message || "Login failed");
@@ -29,7 +30,8 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="auth-container">
+    <form onSubmit={handleSubmit} className="auth-form">
       <input
         type="email"
         placeholder="Email"
@@ -46,6 +48,7 @@ const Login = () => {
       />
       <button type="submit">Login</button>
     </form>
+    </div>
   );
 };
 

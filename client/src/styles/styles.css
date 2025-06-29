@@ -11,6 +11,48 @@ body {
   padding: 10px 20px;
   color: white;
 }
+/* ========== Suggestions Dropdown ========== */
+.suggestion-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  z-index: 1000;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border-radius: 0 0 6px 6px;
+}
+
+.suggestion-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.2s ease;
+}
+
+.suggestion-item:hover {
+  background-color: #f3f4f6;
+}
+
+.suggestion-link {
+  text-decoration: none;
+  color: #1e293b;
+  display: block;
+  width: 100%;
+}
+
+.suggestion-link:hover {
+  text-decoration: underline;
+}
+
 
 .navbar-left,
 .navbar-center,

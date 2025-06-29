@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../../styles/AdminDashboard.css'; 
 
 const ManageBannerSlider = () => {
   const [banners, setBanners] = useState([]);
@@ -45,93 +46,41 @@ const ManageBannerSlider = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.heading}>🖼️ Manage Banner Slider</h2>
+    <div className="manage-banner-container">
+      <h2 className="manage-banner-heading">🖼️ Manage Banner Slider</h2>
 
-      <div style={styles.uploadSection}>
+      <div className="upload-section">
         <input
           type="file"
           onChange={(e) => setImage(e.target.files[0])}
-          style={styles.fileInput}
+          className="file-input"
         />
-        <button onClick={handleUpload} style={styles.uploadButton}>Upload Banner</button>
+        <button onClick={handleUpload} className="upload-button">
+          Upload Banner
+        </button>
       </div>
 
-      <div style={styles.bannerList}>
+      <div className="banner-list">
         {banners.length > 0 ? banners.map((banner) => (
-          <div key={banner._id} style={styles.bannerCard}>
+          <div key={banner._id} className="banner-card">
             <img
               src={`http://localhost:5000${banner.imageUrl}`}
               alt="Banner"
-              style={styles.bannerImage}
+              className="banner-image"
             />
-            <button onClick={() => handleDelete(banner._id)} style={styles.deleteButton}>
+            <button
+              onClick={() => handleDelete(banner._id)}
+              className="delete-button"
+            >
               ❌ Delete
             </button>
           </div>
         )) : (
-          <p style={styles.noBanner}>No banners uploaded yet.</p>
+          <p className="no-banner">No banners uploaded yet.</p>
         )}
       </div>
     </div>
   );
-};
-
-// ✅ Basic CSS styles in JS object
-const styles = {
-  container: {
-    padding: '30px',
-    fontFamily: 'sans-serif'
-  },
-  heading: {
-    fontSize: '24px',
-    marginBottom: '20px'
-  },
-  uploadSection: {
-    marginBottom: '30px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px'
-  },
-  fileInput: {
-    fontSize: '16px'
-  },
-  uploadButton: {
-    padding: '8px 16px',
-    backgroundColor: '#2e7d32',
-    color: '#fff',
-    border: 'none',
-    cursor: 'pointer'
-  },
-  bannerList: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '20px'
-  },
-  bannerCard: {
-    border: '1px solid #ddd',
-    padding: '10px',
-    borderRadius: '5px',
-    width: '320px',
-    textAlign: 'center',
-    backgroundColor: '#f9f9f9'
-  },
-  bannerImage: {
-    width: '100%',
-    height: 'auto',
-    marginBottom: '10px'
-  },
-  deleteButton: {
-    padding: '6px 12px',
-    backgroundColor: '#c62828',
-    color: '#fff',
-    border: 'none',
-    cursor: 'pointer'
-  },
-  noBanner: {
-    color: '#999',
-    fontStyle: 'italic'
-  }
 };
 
 export default ManageBannerSlider;

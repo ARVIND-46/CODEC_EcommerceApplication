@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Slider from 'react-slick';
 import axios from 'axios';
+// import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';  
+import '../../styles/Store.css'; 
 
-// Import slick slider styles only
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 const BannerSlider = () => {
   const [banners, setBanners] = useState([]);
@@ -29,23 +28,22 @@ const BannerSlider = () => {
     speed: 800,
     autoplaySpeed: 3000,
     slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToScroll: 1,
+    arrow: false
   };
 
   return (
-    <div style={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}>
-      <h2>Banner Slider</h2>
-      <Slider {...settings}>
+    <div  className="bannerContainer">
+      
         {banners.map((banner) => (
-          <div key={banner._id}>
+          <div key={banner._id} className='Cards'>
             <img
               src={`http://localhost:5000${banner.imageUrl}`}
               alt="banner"
-              style={{ width: '100%', height: '300px', objectFit: 'cover' }}
             />
           </div>
         ))}
-      </Slider>
+     
     </div>
   );
 };

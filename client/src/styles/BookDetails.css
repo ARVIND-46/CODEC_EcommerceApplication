@@ -1,0 +1,157 @@
+/* Modern Card-style BookDetails with enhanced visuals */
+
+.book-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem;
+  background: #ffffff;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #2d3436;
+  max-width: 1200px;
+  margin: 2rem auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .book-details-container {
+    flex-direction: row;
+    gap: 3rem;
+    padding: 3rem;
+  }
+}
+
+.book-details-img {
+  width: 300px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.book-details-img:hover {
+  transform: translateY(-4px);
+}
+
+.book-details-info {
+  flex: 1;
+  max-width: 600px;
+}
+
+.book-details-info h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2d3436;
+  margin-bottom: 0.8rem;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.book-details-info p {
+  font-size: 1.1rem;
+  color: #636e72;
+  margin-bottom: 1rem;
+}
+
+.book-details-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.add-to-cart-btn,
+.like-btn,
+.buy-now-btn {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.add-to-cart-btn {
+  background-color: #0984e3;
+  color: white;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #0773c5;
+  transform: translateY(-2px);
+}
+
+.buy-now-btn {
+  background-color: #00b894;
+  color: white;
+}
+
+.buy-now-btn:hover {
+  background-color: #00a382;
+  transform: translateY(-2px);
+}
+
+.like-btn {
+  background-color: #fff;
+  color: #ff7675;
+  border: 2px solid #ff7675;
+}
+
+.like-btn:hover {
+  background-color: #ff7675;
+  color: white;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 767px) {
+  .book-details-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .book-details-img {
+    width: 100%;
+    height: auto;
+    max-width: 280px;
+    align-self: center;
+  }
+
+  .book-details-info h2 {
+    font-size: 1.8rem;
+  }
+
+  .book-details-info p {
+    font-size: 1rem;
+  }
+
+  .book-details-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .add-to-cart-btn,
+  .like-btn,
+  .buy-now-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.book-details-container {
+  animation: fadeIn 0.5s ease-out;
+}

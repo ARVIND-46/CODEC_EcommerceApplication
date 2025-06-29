@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../../styles/AdminDashboard.css'; 
+
 
 const ManageBooks = () => {
   const [books, setBooks] = useState([]);
@@ -16,13 +18,14 @@ const ManageBooks = () => {
 
   const fetchBooks = async () => {
     try {
-      const res =  await axios.get('http://localhost:5000/api/books')
+      const res = await axios.get('http://localhost:5000/api/books');
       setBooks(res.data);
     } catch (err) {
       console.error('Error fetching books:', err);
       setBooks([]);
     }
   };
+
   useEffect(() => {
     fetchBooks();
   }, []);
@@ -53,13 +56,20 @@ const ManageBooks = () => {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       } else {
-       await axios.post('http://localhost:5000/api/books', data, {
+        await axios.post('http://localhost:5000/api/books', data, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       }
 
       fetchBooks();
-      setFormData({ title: '', description: '', stock: '', price: '', author: '', category: '' });
+      setFormData({
+        title: '',
+        description: '',
+        stock: '',
+        price: '',
+        author: '',
+        category: ''
+      });
       setImage(null);
       setEditingId(null);
     } catch (err) {
@@ -69,7 +79,7 @@ const ManageBooks = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/books/${id}`)
+      await axios.delete(`http://localhost:5000/api/books/${id}`);
       fetchBooks();
     } catch (err) {
       console.error('Error deleting book:', err);
@@ -89,76 +99,22 @@ const ManageBooks = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div className="manage-books-container">
       <h2>{editingId ? 'Edit Book' : 'Add New Book'}</h2>
 
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <input
-          type="text"
-          name="title"
-          placeholder="Title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        <input
-          type="text"
-          name="description"
-          placeholder="Description"
-          value={formData.description}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        <input
-          type="number"
-          name="stock"
-          placeholder="Stock"
-          value={formData.stock}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        <input
-          type="number"
-          name="price"
-          placeholder="Price"
-          value={formData.price}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        <input
-          type="text"
-          name="author"
-          placeholder="Author"
-          value={formData.author}
-          onChange={handleChange}
-          required
-          style={styles.input}
-          />
-        <input
-          type="text"
-          name="category"
-          placeholder="Category"
-          value={formData.category}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        <input
-          type="file"
-          onChange={handleImageChange}
-          style={styles.input}
-        />
-        <button type="submit" style={styles.button}>
-          {editingId ? 'Update Book' : 'Add Book'}
-        </button>
+      <form onSubmit={handleSubmit} className="book-form">
+        <input type="text" name="title" placeholder="Title" value={formData.title} onChange={handleChange} required />
+        <input type="text" name="description" placeholder="Description" value={formData.description} onChange={handleChange} required />
+        <input type="number" name="stock" placeholder="Stock" value={formData.stock} onChange={handleChange} required />
+        <input type="number" name="price" placeholder="Price" value={formData.price} onChange={handleChange} required />
+        <input type="text" name="author" placeholder="Author" value={formData.author} onChange={handleChange} required />
+        <input type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} required />
+        <input type="file" onChange={handleImageChange} />
+        <button type="submit" className="submit-button">{editingId ? 'Update Book' : 'Add Book'}</button>
       </form>
 
       <h3>📚 Book List</h3>
-      <table style={styles.table}>
+      <table className="book-table">
         <thead>
           <tr>
             <th>Cover</th>
@@ -174,19 +130,15 @@ const ManageBooks = () => {
             books.map((book) => (
               <tr key={book._id}>
                 <td>
-                  <img
-                    src={`http://localhost:5000/uploads/${book.coverImage}`}
-                    alt="cover"
-                    style={{ width: '60px', height: '80px', objectFit: 'cover' }}
-                  />
+                  <img src={`http://localhost:5000/uploads/${book.coverImage}`} alt="cover" className="book-cover" />
                 </td>
                 <td>{book.title}</td>
                 <td>{book.description}</td>
                 <td>{book.stock}</td>
                 <td>₹{book.price}</td>
                 <td>
-                  <button onClick={() => handleEdit(book)} style={styles.editBtn}>Edit</button>
-                  <button onClick={() => handleDelete(book._id)} style={styles.deleteBtn}>Delete</button>
+                  <button onClick={() => handleEdit(book)} className="edit-btn">Edit</button>
+                  <button onClick={() => handleDelete(book._id)} className="delete-btn">Delete</button>
                 </td>
               </tr>
             ))
@@ -197,16 +149,6 @@ const ManageBooks = () => {
       </table>
     </div>
   );
-};
-
-const styles = {
-  container: { padding: '30px', fontFamily: 'sans-serif' },
-  form: { display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '400px' },
-  input: { padding: '10px', fontSize: '16px' },
-  button: { padding: '10px', backgroundColor: '#2e7d32', color: '#fff', border: 'none', cursor: 'pointer' },
-  table: { width: '100%', borderCollapse: 'collapse', marginTop: '20px' },
-  editBtn: { marginRight: '10px', padding: '5px 10px', backgroundColor: '#0288d1', color: '#fff', border: 'none' },
-  deleteBtn: { padding: '5px 10px', backgroundColor: '#c62828', color: '#fff', border: 'none' }
 };
 
 export default ManageBooks;
